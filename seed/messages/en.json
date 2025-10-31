@@ -1,0 +1,24 @@
+{
+  "nav": {
+    "cofounder": "Cofounder",
+    "useCases": "Use cases",
+    "product": "Product",
+    "agents": "Agents",
+    "integrations": "Integrations",
+    "results": "Results",
+    "blog": "Blog",
+    "pricing": "Pricing",
+    "logIn": "Log in",
+    "signUp": "Sign up"
+  },
+  "hero": {
+    "headline": "Automate your life with natural language",
+    "description": "Cofounder plugs into your existing tools, writes automations, and organizes workflows. Driving the software you're already familiar with.",
+    "watchVideo": "Watch our launch video"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  }
+}
+
