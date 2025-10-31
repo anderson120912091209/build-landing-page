@@ -39,10 +39,34 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`${playfairDisplay.variable} ${inter.variable} font-body antialiased bg-white dark:bg-black text-black dark:text-white`}
+        className={`${playfairDisplay.variable} ${inter.variable} font-body antialiased bg-white dark:bg-black text-black dark:text-white transition-colors duration-200`}
       >
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="light" 
+          enableSystem={false} 
+          storageKey="theme"
+          disableTransitionOnChange={false}
+        >
           <NextIntlClientProvider messages={messages}>
             {children}
           </NextIntlClientProvider>

@@ -7,13 +7,35 @@ import { Link } from '../i18n/routing';
 
 export function Header() {
   const t = useTranslations('nav');
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const locale = useLocale();
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    // Log theme state for debugging
+    console.log('Theme state:', { theme, resolvedTheme });
+  }, [theme, resolvedTheme]);
+
+  const toggleTheme = () => {
+    // Get the current theme - use theme first, then resolvedTheme as fallback
+    const currentTheme = theme || resolvedTheme || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    console.log('Toggling theme from', currentTheme, 'to', newTheme);
+    setTheme(newTheme);
+    
+    // Manually update the HTML class as a fallback
+    if (typeof document !== 'undefined') {
+      if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+  };
+
+  // Check if dark mode is active - use resolvedTheme for accurate check
+  const isDark = resolvedTheme === 'dark' || theme === 'dark';
 
   return (
     <header className="flex items-center justify-end gap-4 p-4 md:p-6">
@@ -59,11 +81,11 @@ export function Header() {
       {/* Theme Toggle */}
       {mounted && (
         <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          onClick={toggleTheme}
           className="p-2 rounded-full border border-black dark:border-white text-black dark:text-white hover:opacity-70 transition-opacity"
           aria-label="Toggle theme"
         >
-          {theme === 'dark' ? (
+          {isDark ? (
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
